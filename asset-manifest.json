@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/blinka-react-app/static/css/main.843d655c.css",
+    "main.js": "/blinka-react-app/static/js/main.a5ee0a47.js",
+    "static/media/beep.mp3": "/blinka-react-app/static/media/beep.d3098e23567c82048784.mp3",
+    "index.html": "/blinka-react-app/index.html",
+    "main.843d655c.css.map": "/blinka-react-app/static/css/main.843d655c.css.map",
+    "main.a5ee0a47.js.map": "/blinka-react-app/static/js/main.a5ee0a47.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.843d655c.css",
+    "static/js/main.a5ee0a47.js"
+  ]
+}
