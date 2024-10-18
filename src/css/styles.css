@@ -154,7 +154,8 @@ body {
   width: 220px; 
   opacity: 0.9; 
   transition: transform 0.3s, opacity 0.3s;
-  padding-bottom: -10px;
+  object-fit: contain;
+  image-rendering: auto;
 }
 
 .blinka-image-logo:hover {
@@ -165,7 +166,7 @@ body {
 @media (max-width: 768px) {
   .blinka-image-logo {
     width: 210px;
-    height: 400px;
+    height: auto;
   }
 }
 
