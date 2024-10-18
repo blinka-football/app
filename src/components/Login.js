@@ -8,7 +8,7 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
-  const [isError, setIsError] = useState(false);
+  // Removed isError since it's not used
   const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
   const [forgotPasswordEmail, setForgotPasswordEmail] = useState('');
   const [forgotPasswordMessage, setForgotPasswordMessage] = useState('');
@@ -25,7 +25,7 @@ function Login() {
 
     if (error) {
       setModalMessage(error.message);
-      setIsError(true);
+      // Removed setIsError(true) since isError is not used
       setShowModal(true);
     } else {
       navigate('/home');
@@ -55,15 +55,20 @@ function Login() {
 
     const redirectToUrl = `${window.location.origin}/reset-password`;
 
-    const { data, error } = await supabase.auth.resetPasswordForEmail(forgotPasswordEmail, {
-      redirectTo: redirectToUrl,
-    });
+    const { error } = await supabase.auth.resetPasswordForEmail(
+      forgotPasswordEmail,
+      {
+        redirectTo: redirectToUrl,
+      }
+    );
 
     if (error) {
       console.log('Reset password error:', error);
     }
 
-    setForgotPasswordMessage('If this email exists, a reset password link has been sent.');
+    setForgotPasswordMessage(
+      'If this email exists, a reset password link has been sent.'
+    );
   };
 
   return (
@@ -131,7 +136,11 @@ function Login() {
                       height="24px"
                     >
                       <path d="M12 5c-7.633 0-11.524 6.99-11.719 7.308l-.281.692.281.692c.195.318 4.086 7.308 11.719 7.308 7.633 0 11.524-6.99 11.719-7.308l.281-.692-.281-.692c-.195-.318-4.086-7.308-11.719-7.308zm0 13c-4.411 0-7.911-3.057-9.51-5 1.599-1.943 5.099-5 9.51-5 4.411 0 7.911 3.057 9.51 5-1.599 1.943-5.099 5-9.51 5z" />
-                      <path d="M2 2l20 20" stroke="#c0ba98" strokeWidth="2"/>
+                      <path
+                        d="M2 2l20 20"
+                        stroke="#c0ba98"
+                        strokeWidth="2"
+                      />
                     </svg>
                   )}
                 </span>
@@ -186,7 +195,11 @@ function Login() {
       {showModal && (
         <div className="modal-overlay">
           <div className="modal">
-            <button className="modal-close-btn" onClick={handleCloseModal} aria-label="Close modal">
+            <button
+              className="modal-close-btn"
+              onClick={handleCloseModal}
+              aria-label="Close modal"
+            >
               &times;
             </button>
             <div className="modal-content">
@@ -222,7 +235,11 @@ function Login() {
                       required
                       className="form-input"
                       placeholder="Enter your email"
-                      style={{ marginBottom: '10px', width: '100%', padding: '8px' }}
+                      style={{
+                        marginBottom: '10px',
+                        width: '100%',
+                        padding: '8px',
+                      }}
                     />
                     <div className="modal-buttons">
                       <button type="submit" className="modal-ok-btn">
@@ -234,7 +251,10 @@ function Login() {
               ) : (
                 <>
                   <p>{forgotPasswordMessage}</p>
-                  <button className="modal-ok-btn" onClick={handleCloseForgotPasswordModal}>
+                  <button
+                    className="modal-ok-btn"
+                    onClick={handleCloseForgotPasswordModal}
+                  >
                     Okay
                   </button>
                 </>

@@ -2,7 +2,6 @@
 
 import React, { useEffect } from 'react';
 import { Button } from 'react-bootstrap';
-import { stopGame } from '../GameLogic';
 import Countdown from './Countdown'; 
 import '../css/Countdown.css';
 
