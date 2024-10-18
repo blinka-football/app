@@ -102,7 +102,7 @@ const Home = () => {
 
   // Function to handle scroll down
   const handleScrollDown = () => {
-    const scrollValue = window.innerWidth <= 768 ? 1000 : 1700;
+    const scrollValue = window.innerWidth <= 768 ? 1100 : 1700;
     window.scrollBy({ top: scrollValue, behavior: 'smooth' });
   };
 
