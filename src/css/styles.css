@@ -164,7 +164,7 @@ body {
 
 @media (max-width: 768px) {
   .blinka-image-logo {
-    width: 220px;
+    width: 210px;
     height: 400px;
   }
 }
@@ -203,7 +203,7 @@ body {
 
   .message-text {
     font-size: 1.5rem;
-    margin-left: 10px;
+    margin-left: 2px;
     text-align: center;
   }
 }

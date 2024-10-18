@@ -22,6 +22,8 @@ const Home = () => {
 
   const [copySuccess, setCopySuccess] = useState('');
 
+  const [feedbackSuccess, setFeedbackSuccess] = useState('');
+
   const [isConfettiVisible, setIsConfettiVisible] = useState(false);
 
   const dropdownRef = useRef(null);
@@ -86,8 +88,11 @@ const Home = () => {
         console.error('Error submitting feedback:', error);
         toast.error('Failed to submit feedback. Please try again.');
       } else {
-        toast.success('Thank you for your feedback!');
-        closeFeedbackModal();
+        setFeedbackSuccess('Thank you for your feedback!');
+        setTimeout(() => {
+          setFeedbackSuccess('');
+          closeFeedbackModal();
+        }, 1500);
       }
     } catch (err) {
       console.error('Unexpected error submitting feedback:', err);
@@ -97,7 +102,7 @@ const Home = () => {
 
   // Function to handle scroll down
   const handleScrollDown = () => {
-    const scrollValue = window.innerWidth <= 768 ? 1150 : 1700;
+    const scrollValue = window.innerWidth <= 768 ? 1000 : 1700;
     window.scrollBy({ top: scrollValue, behavior: 'smooth' });
   };
 
@@ -147,8 +152,6 @@ const Home = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-
-
 
   return (
     <>
@@ -264,6 +267,9 @@ const Home = () => {
               <div className="modal-content">
                 <p>We value your feedback!</p>
                 <FeedbackForm onSubmit={submitFeedback} />
+                {feedbackSuccess && (
+                  <p className="copy-success">{feedbackSuccess}</p>
+                )}
               </div>
             </div>
           </div>
@@ -281,14 +287,29 @@ const FeedbackForm = ({ onSubmit }) => {
   const [rating, setRating] = useState('');
   const [message, setMessage] = useState('');
 
+  const [ratingError, setRatingError] = useState('');
+  const [messageError, setMessageError] = useState('');
+
   const handleSubmitFeedback = () => {
+    let hasError = false;
+
     if (!rating) {
-      toast.error('Please select a rating.');
-      return;
+      setRatingError('Please select a rating.');
+      hasError = true;
+      setTimeout(() => {
+        setRatingError('');
+      }, 1500);
     }
 
     if (message.trim().length === 0) {
-      toast.error('Please enter your feedback.');
+      setMessageError('Please enter your feedback.');
+      hasError = true;
+      setTimeout(() => {
+        setMessageError('');
+      }, 1500);
+    }
+
+    if (hasError) {
       return;
     }
 
@@ -297,25 +318,30 @@ const FeedbackForm = ({ onSubmit }) => {
 
   return (
     <>
-      <label htmlFor="rating">Rating (1-5):</label>
+      <label htmlFor="rating" style={{ display: 'block', marginBottom: '10px' }}>
+        How likely are you to recommend our app to a friend?<span className="required">*</span>
+      </label>
       <select
         id="rating"
         name="rating"
         value={rating}
         onChange={(e) => setRating(e.target.value)}
-        style={{ width: '100%', padding: '10px', marginBottom: '20px' }}
+        style={{ width: '100%', padding: '10px', marginBottom: '10px' }}
       >
         <option value="" disabled>
           Select rating
         </option>
-        <option value="1">1 - Very Dissatisfied</option>
-        <option value="2">2 - Dissatisfied</option>
-        <option value="3">3 - Neutral</option>
-        <option value="4">4 - Satisfied</option>
-        <option value="5">5 - Very Satisfied</option>
+        <option value="1">1 - Definitely Not Recommend</option>
+        <option value="2">2 - Probably Not Recommend</option>
+        <option value="3">3 - Not Sure</option>
+        <option value="4">4 - Probably Recommend</option>
+        <option value="5">5 - Definitely Recommend</option>
       </select>
+      {ratingError && <p className="error-message" style={{ color: 'red', marginBottom: '10px' }}>{ratingError}</p>}
 
-      <label htmlFor="message">Your Feedback:</label>
+      <label htmlFor="message" style={{ display: 'block', marginBottom: '10px' }}>
+        Your Feedback:<span className="required">*</span>
+      </label>
       <textarea
         id="message"
         name="message"
@@ -324,8 +350,9 @@ const FeedbackForm = ({ onSubmit }) => {
         placeholder="Enter your feedback (max 500 characters)"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
-        style={{ width: '100%', padding: '10px', marginBottom: '20px' }}
+        style={{ width: '100%', padding: '10px', marginBottom: '10px' }}
       ></textarea>
+      {messageError && <p className="error-message" style={{ color: 'red', marginBottom: '10px' }}>{messageError}</p>}
 
       <div>
         <button className="modal-ok-btn" onClick={handleSubmitFeedback}>
