@@ -236,6 +236,7 @@ const Home = () => {
                 &times;
               </button>
               <div className="modal-content">
+                <p style={{"fontSize": "24px" }}>Share with friends and family!</p>
                 <p>Share this link to invite others to sign up:</p>
                 <input
                   type="text"
@@ -265,7 +266,7 @@ const Home = () => {
                 &times;
               </button>
               <div className="modal-content">
-                <p>We value your feedback!</p>
+                <p style={{"fontSize": "24px" }}>We value your feedback!</p>
                 <FeedbackForm onSubmit={submitFeedback} />
                 {feedbackSuccess && (
                   <p className="copy-success">{feedbackSuccess}</p>
