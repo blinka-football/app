@@ -1,75 +1,126 @@
-// GameLogic.js
+import { Howl } from 'howler';
 import beepSound from './media/beep.mp3'; // Import the beep sound file
 
-// Create an Audio object for the beep sound
-const beepAudio = new Audio(beepSound);
+let beepAudio = null; // Declare beepAudio globally
 
+// Define the shape mapping for colors
 const SHAPE_MAPPING = {
     '#64c823': 'diamond',
-   '#FC4705': 'square',
+    '#FC4705': 'square',
     '#FFFF00': 'circle',
     '#7ed0ff': 'triangle'
 };
 
-const COLORS = Object.keys(SHAPE_MAPPING);
-const LEVEL_DURATIONS = [0.5, 1, 1.5, 2, 2.5, 3];
-const NUM_FLASHES = 13;
+const COLORS = Object.keys(SHAPE_MAPPING); // Array of color codes
+const LEVEL_DURATIONS = [0.5, 1, 1.5, 2, 2.5, 3]; // Durations for each level
+const NUM_FLASHES = 13; // Number of flashes per game
 
+// Variables to hold game state
 let gameInterval;
+let timeout;
+let isGameRunning = false;
 let counter = 0;
-let previousColor; // Keep track of the previous color
+let previousColor = null;
 
+// Initialize the beep sound using Howler.js (Singleton pattern)
+export function initializeBeepSound() {
+    // Ensure only one instance of Howl is created
+    if (!beepAudio) {
+        beepAudio = new Howl({
+            src: [beepSound],   // Path to the beep sound
+            volume: 1,          // Volume level (1 = 100%)
+            loop: false,        // Ensure the sound doesn't loop
+            onend: () => {      // Optional: Log or handle after sound ends
+                console.log("Beep sound finished playing");
+            }
+        });
+    }
+}
+
+// Function to start flashing colors
 export function flashColors(level, endGameCallback) {
     const duration = LEVEL_DURATIONS[level - 1];
 
-    // Reset counter and previousColor before starting a new game
+    // Initialize the beep sound when the game starts
+    initializeBeepSound(); // Always ensure the beep sound is initialized
+
+    // Reset game state before starting a new game
     counter = 0;
     previousColor = null;
+    isGameRunning = true; // Set game as running
 
-    // Create a new instance of the beep audio
-    const beepAudio = new Audio(beepSound);
+    // Clear any leftover background color from the previous game
+    document.body.style.backgroundColor = ''; 
 
-    // Delay the start of color flashing by the duration of the beep sound
-    setTimeout(() => {
-        // Play the beep sound
-        beepAudio.play();
+    // Cache the shape container element
+    const shapeContainer = document.getElementById('shape-container');
+    if (shapeContainer) {
+        shapeContainer.innerHTML = ''; // Clear previous shape content
+    }
 
+    // Play beep sound and start color flashing immediately
+    timeout = setTimeout(() => {
+        if (!isGameRunning) return; // Check if game is still running before playing sound
+
+        beepAudio.play(); // Play beep sound using Howler.js
+
+        // Start flashing colors at intervals based on the level duration
         gameInterval = setInterval(() => {
+            if (!isGameRunning) return; // Prevent further execution if game is stopped
+
             let color;
             do {
-                color = COLORS[Math.floor(Math.random() * COLORS.length)]; // Select random color from COLORS array
-            } while (color === previousColor); // Repeat until a new color is selected
-            document.body.style.backgroundColor = color; // Update body background color
-            previousColor = color; // Update previous color
+                color = COLORS[Math.floor(Math.random() * COLORS.length)];
+            } while (color === previousColor); // Ensure a new color is selected
+
+            document.body.style.backgroundColor = color;
+            previousColor = color;
 
             // Display shape corresponding to the color
             const shape = SHAPE_MAPPING[color];
-            const shapeContainer = document.getElementById('shape-container');
             if (shapeContainer) {
                 shapeContainer.innerHTML = shape ? `<div class="shape ${shape}"></div>` : '';
             }
 
             counter++;
-            if (counter === 1) { // Check if counter hits 1
-                // Play the beep sound when counter hits 1
-                beepAudio.play();
-            }
-
             if (counter >= NUM_FLASHES) {
-                clearInterval(gameInterval);
-                document.body.style.backgroundColor = ''; // Reset background color
-                if (shapeContainer) {
-                    shapeContainer.innerHTML = ''; // Clear shape container
-                }
+                stopGame(); // Stop the game once the counter hits the limit
                 endGameCallback(); // Call the endGameCallback function
             }
         }, duration * 1000);
-    }, beepAudio.duration * 0);
+    }, 0);
 }
 
+// **Hardcoded Approach** to forcefully stop all game state and audio
 export function stopGame() {
+    // Stop the game interval and timeout
     clearInterval(gameInterval);
-    counter = 0; // Reset counter
-    previousColor = null; // Reset previousColor
+    clearTimeout(timeout);
 
+    // Set game state to not running
+    isGameRunning = false;
+
+    // Reset game state variables
+    counter = 0;
+    previousColor = null;
+
+    // **Forcibly stop the beep audio**
+    if (beepAudio) {
+        try {
+            beepAudio.stop(); // Stop the beep sound using Howler.js
+            beepAudio.unload(); // Completely unload and reset the Howler instance
+            beepAudio = null; // Ensure the Howler instance is cleared
+        } catch (error) {
+            console.error("Error stopping the beep audio:", error);
+        }
+    }
+
+    // Reset UI elements to the initial state
+    document.body.style.backgroundColor = ''; // Reset the background color to default
+    const shapeContainer = document.getElementById('shape-container');
+    if (shapeContainer) {
+        shapeContainer.innerHTML = ''; // Clear any shapes displayed in the game
+    }
+
+    console.log("Game and audio have been reset to their initial state.");
 }

@@ -1,16 +1,17 @@
 import React from 'react';
 
 const Footer = () => {
+    
     return (
         <div className="footer col-sm-12">
             <footer>
-                <p>FOR MORE DETAILS ABOUT OUR GAME OR FOR ANY ENQUIRIES, PLEASE FEEL FREE TO CONTACT US.</p>
-                <p> OUR DEDICATED TEAM IS HERE TO ASSIST YOU WITH ANY QUESTIONS YOU MAY HAVE. WE VALUE YOUR FEEDBACK AND ARE COMMITTED TO PROVIDING THE BEST EXPERIENCE POSSIBLE.</p>
+                <p>Have questions or need assistance with our game?</p>
+                <p> We're here to help! Reach out to us anytime, and we'll be happy to assist you.</p>
                 <br></br>
-                <p className='email'>YOU CAN REACH US VIA EMAIL AT <a href="mailto:askblinka@gmail.com">BLINKA</a></p>
+                <p className='email'>Email us at <a href="mailto:askblinka@gmail.com" className='email-at'>BLINKA</a></p>
                 <br></br>
-                <p>THANK YOU FOR YOUR INTEREST IN OUR GAME. WE LOOK FORWARD TO HEARING FROM YOU!</p>
-                <br></br>
+                <p>Thank you for your interest in our game. We look forward to hearing from you!</p>
+                <p>If you would like to delete your account, please email us.</p>
                 <p>COPYRIGHT &copy; 2024</p>
             </footer>
         </div>

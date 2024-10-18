@@ -1,0 +1,110 @@
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+.confetti-wrapper {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 80vh;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.confetti-active {
+  .confetti-piece {
+    position: absolute;
+    top: -10%;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  $colors: (#ba4a57, #a83fc2, #3d53a5, #a6d560);
+
+  // Default confetti for desktop
+  @for $i from 0 through 150 {
+    $w: random(18);
+    $l: random(100);
+
+    .confetti-#{$i} {
+      width: #{$w}px;
+      height: #{$w * 2}px;
+      background-color: nth($colors, random(4));
+      top: -10%;
+      left: unquote($l + "%");
+      opacity: random() + 0.5;
+      transform: rotate(#{random() * 360}deg);
+      animation: drop-#{$i} unquote(4 + random() * 2 + "s") unquote(random() + "s") forwards;
+    }
+
+    @keyframes drop-#{$i} {
+      0% {
+        top: -10%;
+      }
+      100% {
+        top: 115vh;
+        left: unquote($l + random(5) + "%");
+      }
+    }
+  }
+
+  // Tablet view (width <= 1024px)
+  @media (max-width: 1024px) {
+    @for $i from 0 through 150 {
+      $w: random(12); // Change width for tablet
+      $l: random(100);
+
+      .confetti-#{$i} {
+        width: #{$w}px;
+        height: #{$w * 2}px;
+        background-color: nth($colors, random(4));
+        top: -10%;
+        left: unquote($l + "%");
+        opacity: random() + 0.5;
+        transform: rotate(#{random() * 360}deg);
+        animation: drop-#{$i} unquote(4 + random() * 2 + "s") unquote(random() + "s") forwards;
+      }
+
+      @keyframes drop-#{$i} {
+        0% {
+          top: -10%;
+        }
+        100% {
+          top: 115vh;
+          left: unquote($l + random(5) + "%");
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    @for $i from 0 through 150 {
+      $w: random(6); // Change width for mobile
+      $l: random(100);
+
+      .confetti-#{$i} {
+        width: #{$w}px;
+        height: #{$w * 2}px;
+        background-color: nth($colors, random(4));
+        top: -10%;
+        left: unquote($l + "%");
+        opacity: random() + 0.5;
+        transform: rotate(#{random() * 360}deg);
+        animation: drop-#{$i} unquote(4 + random() * 2 + "s") unquote(random() + "s") forwards;
+      }
+
+      @keyframes drop-#{$i} {
+        0% {
+          top: -10%;
+        }
+        100% {
+          top: 115vh;
+          left: unquote($l + random(5) + "%");
+        }
+      }
+    }
+  }
+}

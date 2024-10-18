@@ -1,18 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Container, Row, Button, Form } from "react-bootstrap";
 
 const GameSelection = ({ onSelectLevel, onStartGame, disabled, selectedLevel }) => {
-  const [level, setLevel] = useState(selectedLevel); // State to track selected level
+  const [level, setLevel] = useState(selectedLevel); 
+
+  useEffect(() => {
+    const gameBody = document.querySelector('.game-body');
+    
+    const handleScroll = () => {
+      const windowHeight = window.innerHeight; 
+      const scrollPosition = window.pageYOffset || document.documentElement.scrollTop; 
+      const gameBodyPosition = gameBody.getBoundingClientRect().top + scrollPosition; 
+
+      if (scrollPosition > gameBodyPosition - windowHeight / 2) {
+        gameBody.classList.add('underline'); 
+      } else {
+        gameBody.classList.remove('underline');
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   const handleStartGame = () => {
-    // Start the game
     onStartGame();
   };
 
   const handleSelectLevel = (event) => {
-    // Update selected level
     setLevel(event.target.value);
-    // Call onSelectLevel prop function
     onSelectLevel(event);
   };
 
@@ -46,10 +65,10 @@ const GameSelection = ({ onSelectLevel, onStartGame, disabled, selectedLevel }) 
             <Button
               className="startBtn"
               variant="primary"
-              disabled={disabled || !level} // Disable button if no level is selected
-              onClick={handleStartGame} // Use handleStartGame function
+              disabled={disabled || !level} 
+              onClick={handleStartGame}
             >
-              <span className="start-btn-text">START GAME ⚽</span>
+              <span className="start-btn-text">START GAME</span>
             </Button>
           </div>
         </Col>

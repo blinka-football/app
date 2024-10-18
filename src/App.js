@@ -1,64 +1,126 @@
 import './css/styles.css';
-import React, { useState } from 'react';
-import Header from './components/Header';
-import GameSelection from './components/GameSelection';
-import Promo from './components/Promo';
+import React, { useState, useContext, useEffect } from 'react';
+import Home from './components/Home';
 import Footer from './components/Footer';
+import GameSelection from './components/GameSelection';
 import GameContainer from './components/GameContainer';
-import { flashColors, stopGame } from './GameLogic'; // Import necessary functions
+import { flashColors, stopGame } from './GameLogic';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import Login from './components/Login';
+import SignUp from './components/Signup';
+import ResetPassword from './components/ResetPassword';
+import PrivateRoute from './PrivateRoute';
+import ContactUs from './components/ContactUs'; 
+import TC from './components/TC';
+import Privacy from './components/Privacy'; 
+import { AuthContext } from './AuthProvider';
 
 const App = () => {
-    const [selectedLevel, setSelectedLevel] = useState('');
-    const [gameStarted, setGameStarted] = useState(false);
-    const [countdown, setCountdown] = useState(3); // Countdown state
+  return (
+    <Router>
+      <MainApp />
+    </Router>
+  );
+};
 
-    const handleSelectLevel = (event) => {
-        setSelectedLevel(event.target.value);
+const MainApp = () => {
+  const [selectedLevel, setSelectedLevel] = useState('');
+  const [gameStarted, setGameStarted] = useState(false);
+  const [countdown, setCountdown] = useState(3); // Countdown state
+
+  const { user } = useContext(AuthContext); // Get the user from AuthContext
+  const location = useLocation(); // Get current location
+
+  // Define public routes where Header and Footer should not be displayed
+  const publicRoutes = ['/login', '/signup', '/reset-password', '/contactus', '/t&c', '/privacy'];
+
+  // Check if the current path is a public route
+  const isPublicRoute = publicRoutes.includes(location.pathname);
+
+  const handleSelectLevel = (event) => {
+    setSelectedLevel(event.target.value);
+  };
+
+  const handleStartGame = () => {
+    // Ensure any previous game is stopped
+    stopGame(); // Stop any ongoing game to prevent overlap
+
+    setGameStarted(true); // Set game as started
+    startCountdown(); // Start countdown before flashing colors
+  };
+
+  const startCountdown = () => {
+    let count = 3;
+    setCountdown(count); // Set initial countdown value
+
+    const countdownInterval = setInterval(() => {
+      count--;
+      if (count === 0) {
+        clearInterval(countdownInterval);
+        setCountdown(null); // Reset countdown state
+        setTimeout(() => {
+          flashColors(selectedLevel, () => setGameStarted(false)); // Start flashing colors after timeout
+        }, 0); // Wait for 0 milliseconds after countdown
+      } else {
+        setCountdown(count); // Update countdown value
+      }
+    }, 1000); // Update countdown every 1000 milliseconds (1 second)
+  };
+
+  const handleStopGame = () => {
+    stopGame(); // Stop the game logic
+    setGameStarted(false); // Reset game state to stopped
+    setCountdown(3); // Reset countdown state to 3
+    document.body.style.backgroundColor = ''; // Reset background color
+  };
+
+  useEffect(() => {
+    // Cleanup on component unmount or navigation change
+    return () => {
+      stopGame(); // Ensure game is stopped if the component unmounts
     };
+  }, []);
 
-    const handleStartGame = () => {
-        setGameStarted(true);
-        startCountdown(); // Start countdown before flashing colors
-    };
+  return (
+    <>
+      {/* Conditionally render Home based on route and user authentication */}
+      {!isPublicRoute && user && <Home />}
 
-    const startCountdown = () => {
-        let count = 3;
-        setCountdown(count); // Set initial countdown value
-    
-        const countdownInterval = setInterval(() => {
-            count--;
-            if (count === 0) {
-                clearInterval(countdownInterval);
-                setCountdown(null); // Reset countdown state
-                setTimeout(() => {
-                    flashColors(selectedLevel, () => setGameStarted(false)); // Start flashing colors after timeout
-                }, 0); // Wait for 0 milliseconds after countdown
-            } else {
-                setCountdown(count); // Update countdown value
-            }
-        }, 1000); // Update countdown every 1000 milliseconds (1 second)
-    };
-    
+      <Routes>
+        {/* Protected routes */}
+        <Route
+          path="/home"
+          element={
+            <PrivateRoute>
+              <>
+                {!gameStarted ? (
+                  <GameSelection
+                    onSelectLevel={handleSelectLevel}
+                    onStartGame={handleStartGame}
+                    disabled={!selectedLevel}
+                    selectedLevel={selectedLevel}
+                  />
+                ) : (
+                  <GameContainer stopGame={handleStopGame} countdown={countdown} />
+                )}
+              </>
+            </PrivateRoute>
+          }
+        />
 
-    const handleStopGame = () => {
-        stopGame(); // Stop the game
-        setGameStarted(false); // Reset game state
-        setCountdown(3); // Reset countdown state
-        document.body.style.backgroundColor = ''; // Reset background color
-    };
+        {/* Public routes */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/reset-password" element={<ResetPassword />} /> 
+        <Route path="/contactus" element={<ContactUs />} /> 
+        <Route path="/t&c" element={<TC />} /> 
+        <Route path="/privacy" element={<Privacy />} /> 
+      </Routes>
 
-    return (
-        <div>
-            <Header />
-            <Promo />
-            {!gameStarted ? (
-                <GameSelection onSelectLevel={handleSelectLevel} onStartGame={handleStartGame} disabled={!selectedLevel} selectedLevel={selectedLevel} />
-            ) : (
-                <GameContainer stopGame={handleStopGame} countdown={countdown} />
-            )}
-            <Footer />
-        </div>
-    );
+      {/* Conditionally render Footer based on current route */}
+      {!isPublicRoute && <Footer />}
+    </>
+  );
 };
 
 export default App;
