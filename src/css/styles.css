@@ -139,22 +139,12 @@ body {
 
 @media (max-width: 768px) {
   .football-image {
-    width: 60px;
+    width: 80px;
     right: -20px;
   }
   .logo-with-football-container {
     position: relative;
     display: inline-block;
-  }
-}
-
-@media (max-width: 480px) {
-  .blinka-image-logo {
-    width: 120px;
-  }
-  .football-image {
-    width: 40px;
-    right: -20px;
   }
 }
 
@@ -174,14 +164,8 @@ body {
 
 @media (max-width: 768px) {
   .blinka-image-logo {
-    width: 200px;
-    height: 420px;
-  }
-}
-
-@media (max-width: 480px) {
-  .blinka-image-logo {
-    width: 125px;
+    width: 220px;
+    height: 400px;
   }
 }
 
@@ -794,6 +778,7 @@ body {
   .blinka-text {
     font-size: 4.5em;
     margin-bottom: 20px;
+    margin-left: 15px;
   }
 
   .personalized-message {
@@ -992,8 +977,8 @@ body {
 
 .legal-links-container {
   position: absolute;
-  bottom: 10px;
-  left: 10px;
+  bottom: 20px;
+  left: 20px;
 }
 
 .legal-link {
@@ -1039,7 +1024,9 @@ ul {
     bottom: 0;
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    margin-top: 30px;
+    margin-bottom: 50px;
+    margin-left: -2%;
   }
 
   .legal-content {
