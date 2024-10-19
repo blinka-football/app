@@ -464,6 +464,7 @@ body {
   height: 50px;
   margin: 20px auto;
   display: block;
+  cursor: pointer;
 }
 
 .start-btn-text,
@@ -491,6 +492,7 @@ body {
   bottom: 50px;
   left: 50%;
   transform: translateX(-50%);
+  cursor: pointer;
 }
 
 .stopBtn:hover {
@@ -752,6 +754,7 @@ body {
 .modal-cancel-btn {
   background-color: #c0ba98;
   color: #ffffff;
+  cursor: pointer;
 }
 
 .modal-cancel-btn:hover {
@@ -763,6 +766,7 @@ body {
   display: flex;
   justify-content: center;
   gap: 20px;
+  cursor: pointer;
 }
 
 @media (max-width: 768px) {
@@ -831,6 +835,7 @@ body {
     font-size: 20px;
     top: 5px;
     right: 5px;
+    cursor: pointer;
   }
 
   .modal-content p {
@@ -840,6 +845,7 @@ body {
   .modal-ok-btn {
     font-size: 14px;
     padding: 8px 16px;
+    cursor: pointer;
   }
 }
 

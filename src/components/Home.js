@@ -192,8 +192,8 @@ const Home = () => {
 
         {/* Blinka Image Logo with Football */}
         <div className="logo-with-football-container">
-          <img src={blinkaLogo} alt="Blinka Logo" className="blinka-image-logo" onClick={triggerConfetti}/>
-          <img src={footballImage} alt="Football" className="football-image" />
+          <img src={blinkaLogo} alt="Blinka Logo" className="blinka-image-logo" onClick={triggerConfetti} style={{'cursor': 'pointer'}}/>
+          <img src={footballImage} alt="Football" className="football-image"/>
         </div>
 
         {/* Personalized Message */}
