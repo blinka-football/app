@@ -1,0 +1,39 @@
+.radio-group {
+    padding-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px; 
+  }
+  
+.radio-button {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+  }
+  
+  /* Optional: Customize the radio input size */
+  .radio-button input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px; /* Space between radio button and label */
+    accent-color: #ffcf11;
+  }
+  
+  /* Responsive adjustments for smaller screens */
+  @media (max-width: 576px) {
+    .radio-group {
+      flex-direction: column;
+      gap: 20px; /* Reduced spacing for vertical layout */
+    }
+  
+    .radio-button {
+      font-size: 20px; /* Slightly smaller font on mobile */
+    }
+  
+    .radio-button input[type="radio"] {
+      width: 18px;
+      height: 18px;
+    }
+  }
+    

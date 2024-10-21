@@ -1,3 +1,5 @@
+// App.js
+
 import './css/styles.css';
 import React, { useState, useContext, useEffect } from 'react';
 import Home from './components/Home';
@@ -54,15 +56,17 @@ const MainApp = () => {
     setSelectedLevel(event.target.value);
   };
 
-  const handleStartGame = () => {
+  // Modify handleStartGame to accept playMode
+  const handleStartGame = (playMode) => {
     // Ensure any previous game is stopped
     stopGame(); // Stop any ongoing game to prevent overlap
 
     setGameStarted(true); // Set game as started
-    startCountdown(); // Start countdown before flashing colors
+    startCountdown(playMode); // Start countdown before flashing colors
   };
 
-  const startCountdown = () => {
+  // Modify startCountdown to accept playMode
+  const startCountdown = (playMode) => {
     let count = 3;
     setCountdown(count); // Set initial countdown value
 
@@ -72,7 +76,7 @@ const MainApp = () => {
         clearInterval(countdownInterval);
         setCountdown(null); // Reset countdown state
         setTimeout(() => {
-          flashColors(selectedLevel, () => setGameStarted(false)); // Start flashing colors after timeout
+          flashColors(selectedLevel, () => setGameStarted(false), playMode); // Pass playMode
         }, 0); // Wait for 0 milliseconds after countdown
       } else {
         setCountdown(count); // Update countdown value
@@ -83,7 +87,7 @@ const MainApp = () => {
   const handleStopGame = () => {
     stopGame(); // Stop the game logic
     setGameStarted(false); // Reset game state to stopped
-    setCountdown(3); // Reset countdown state to 3
+    setCountdown(3); // Reset countdown state
     document.body.style.backgroundColor = ''; // Reset background color
   };
 
@@ -97,11 +101,11 @@ const MainApp = () => {
   return (
     <>
       {!isPublicRoute && user && <Home />}
-  
+
       <Routes>
         {/* Redirect from '/' to '/signup' using index route */}
         <Route index element={<Navigate to="/signup" replace />} />
-  
+
         {/* Public routes */}
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
@@ -109,7 +113,7 @@ const MainApp = () => {
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/t&c" element={<TC />} />
         <Route path="/privacy" element={<Privacy />} />
-  
+
         {/* Protected routes */}
         <Route
           path="/home"
@@ -128,9 +132,9 @@ const MainApp = () => {
             </PrivateRoute>
           }
         />
-  
+
       </Routes>
-  
+
       {!isPublicRoute && <Footer />}
     </>
   );

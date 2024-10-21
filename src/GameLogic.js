@@ -1,3 +1,5 @@
+// GameLogic.js
+
 import { Howl } from 'howler';
 import beepSound from './media/beep.mp3'; // Import the beep sound file
 
@@ -38,7 +40,7 @@ export function initializeBeepSound() {
 }
 
 // Function to start flashing colors
-export function flashColors(level, endGameCallback) {
+export function flashColors(level, endGameCallback, playMode = 'once') {
     const duration = LEVEL_DURATIONS[level - 1];
 
     // Initialize the beep sound when the game starts
@@ -83,10 +85,11 @@ export function flashColors(level, endGameCallback) {
             }
 
             counter++;
-            if (counter >= NUM_FLASHES) {
+            if (playMode === 'once' && counter >= NUM_FLASHES) {
                 stopGame(); // Stop the game once the counter hits the limit
                 endGameCallback(); // Call the endGameCallback function
             }
+            // In 'repeat' mode, do not stop automatically
         }, duration * 1000);
     }, 0);
 }

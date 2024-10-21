@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { Col, Container, Row, Button, Form } from "react-bootstrap";
+import "../css/GameSelection.css"; // Import the CSS file
 
 const GameSelection = ({ onSelectLevel, onStartGame, disabled, selectedLevel }) => {
-  const [level, setLevel] = useState(selectedLevel); 
+  const [level, setLevel] = useState(selectedLevel);
+  const [playMode, setPlayMode] = useState("once"); // Default to "Play Once"
 
   useEffect(() => {
     const gameBody = document.querySelector('.game-body');
-    
+
     const handleScroll = () => {
-      const windowHeight = window.innerHeight; 
-      const scrollPosition = window.pageYOffset || document.documentElement.scrollTop; 
-      const gameBodyPosition = gameBody.getBoundingClientRect().top + scrollPosition; 
+      const windowHeight = window.innerHeight;
+      const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+      const gameBodyPosition = gameBody.getBoundingClientRect().top + scrollPosition;
 
       if (scrollPosition > gameBodyPosition - windowHeight / 2) {
-        gameBody.classList.add('underline'); 
+        gameBody.classList.add('underline');
       } else {
         gameBody.classList.remove('underline');
       }
@@ -27,12 +29,17 @@ const GameSelection = ({ onSelectLevel, onStartGame, disabled, selectedLevel }) 
   }, []);
 
   const handleStartGame = () => {
-    onStartGame();
+    // Pass playMode to the onStartGame function
+    onStartGame(playMode);
   };
 
   const handleSelectLevel = (event) => {
     setLevel(event.target.value);
     onSelectLevel(event);
+  };
+
+  const handlePlayModeChange = (event) => {
+    setPlayMode(event.target.value);
   };
 
   return (
@@ -41,6 +48,31 @@ const GameSelection = ({ onSelectLevel, onStartGame, disabled, selectedLevel }) 
         <Col xs={12} md={6}>
           <div className="game-selection text-center">
             <h2 className="game-body">LET'S BEGIN</h2>
+
+            {/* Radio Buttons for Play Mode */}
+            <Form.Group className="mb-4 radio-group">
+              <Form.Check
+                type="radio"
+                label="Play Once"
+                name="playMode"
+                id="playOnce"
+                value="once"
+                checked={playMode === "once"}
+                onChange={handlePlayModeChange}
+                className="radio-button"
+              />
+              <Form.Check
+                type="radio"
+                label="Repeat Play"
+                name="playMode"
+                id="repeatPlay"
+                value="repeat"
+                checked={playMode === "repeat"}
+                onChange={handlePlayModeChange}
+                className="radio-button"
+              />
+            </Form.Group>
+
             <h3 className="game-description">SELECT A LEVEL BELOW</h3>
             <Form.Group
               controlId="levelSelect"
@@ -65,8 +97,8 @@ const GameSelection = ({ onSelectLevel, onStartGame, disabled, selectedLevel }) 
             <Button
               className="startBtn"
               variant="primary"
-              disabled={disabled || !level} 
-              onClick={handleStartGame}
+              disabled={disabled || !level}
+              onClick={handleStartGame} // Now passes playMode
             >
               <span className="start-btn-text">START GAME</span>
             </Button>
