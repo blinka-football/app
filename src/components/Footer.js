@@ -3,7 +3,7 @@ import React from 'react';
 const Footer = () => {
     
     return (
-        <div className="footer col-sm-12">
+        <div className="footer">
             <footer>
                 <p>Have questions or need assistance with our game?</p>
                 <p> We're here to help! Reach out to us anytime, and we'll be happy to assist you.</p>

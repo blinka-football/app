@@ -21,14 +21,7 @@ const GameContainer = ({ stopGame, countdown }) => {
   return (
     <div className="game-container-wrapper" style={{ position: 'relative' }}>
       <div
-        id="game-container"
         className="game-container"
-        style={{
-          display: 'block',
-          paddingTop: '5%',
-          opacity: '1',
-          zIndex: '1',
-        }}
       >
         <div className="col-sm-12 top"></div>
         <div
@@ -42,7 +35,7 @@ const GameContainer = ({ stopGame, countdown }) => {
             color: '#000000',
           }}
         >
-          {countdown !== null ? <Countdown countdown={countdown} /> : null} {/* Display animated countdown */}
+          {countdown !== null ? <Countdown countdown={countdown} /> : null}
         </div>
       </div>
       <div
@@ -56,7 +49,6 @@ const GameContainer = ({ stopGame, countdown }) => {
           zIndex: '2',
         }}
       >
-        {/* Shapes will be dynamically inserted here */}
       </div>
       <Button
         className="stopBtn"
@@ -74,7 +66,7 @@ const GameContainer = ({ stopGame, countdown }) => {
           alignItems: 'center',
         }}
       >
-        <span className="stop-btn-text" style={{ textAlign: 'center' }}>
+        <span className="stop-btn-text">
           STOP GAME
         </span>
       </Button>

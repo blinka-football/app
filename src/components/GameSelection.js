@@ -83,7 +83,6 @@ const GameSelection = ({ onSelectLevel, onStartGame, disabled, selectedLevel }) 
                 value={level} // Set value of select to selectedLevel
                 onChange={handleSelectLevel}
                 className="custom-select"
-                style={{ marginLeft: "0px" }}
               >
                 <option value="">Select a level</option>
                 <option value="6">Level 1</option>
