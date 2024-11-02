@@ -14,13 +14,14 @@ const GameContainer = ({ stopGame, countdown }) => {
   useEffect(() => {
     const gameContainer = document.getElementById('game-container');
     if (gameContainer) {
-      gameContainer.scrollIntoView({ behavior: 'smooth' });
+      gameContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }, []);
 
   return (
     <div className="game-container-wrapper" style={{ position: 'relative' }}>
       <div
+        id="game-container" // Set the ID here
         className="game-container"
       >
         <div className="col-sm-12 top"></div>
