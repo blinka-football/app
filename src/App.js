@@ -1,5 +1,3 @@
-// App.js
-
 import './css/styles.css';
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import Home from './components/Home';
@@ -22,11 +20,13 @@ import ContactUs from './components/ContactUs';
 import TC from './components/TC';
 import Privacy from './components/Privacy';
 import { AuthContext } from './AuthProvider';
+import { Analytics } from "@vercel/analytics/react";
 
 const App = () => {
   return (
     <Router>
       <MainApp />
+      <Analytics />
     </Router>
   );
 };
