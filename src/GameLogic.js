@@ -14,7 +14,7 @@ const SHAPE_MAPPING = {
 };
 
 const COLORS = Object.keys(SHAPE_MAPPING); // Array of color codes
-const LEVEL_DURATIONS = [0.5, 1, 1.5, 2, 2.5, 3]; // Durations for each level
+const LEVEL_DURATIONS = [0.75, 1, 1.5, 2, 2.5, 3]; // Durations for each level
 const NUM_FLASHES = 12; // Set number of flashes to 12
 
 // Variables to hold game state
